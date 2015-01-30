@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<style>
+li.languages {line-height: 120%;}
+img.languages {padding: 0px 3px 0px 3px ;}
+.img_swap img:last-child{display:none}
+.img_swap:hover img:first-child{display:none}
+.img_swap:hover img:last-child{display:inline-block}
+</style>
+
+
+
+<body>
+
+
+<div id="id01"></div>
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+//var json_url ="http://api.unfoldingword.org/obs/txt/1/obs-catalog.json";
+var json_url = "obs-catalog.json";
+
+
+xmlhttp.onreadystatechange=function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        myFunction(xmlhttp.responseText);
+    }
+}
+xmlhttp.open("GET", json_url, true);
+xmlhttp.send();
+
+function myFunction(response) {
+    var arr = JSON.parse(response);
+
+    //sort by language property
+    arr.sort(function(a,b){
+        return a.language.toLowerCase().localeCompare(b.language.toLowerCase());
+    });
+
+    var i;
+    var htmlOut = "<div><p>&nbsp;</p><p>Available translations (many more coming very soon!):</p>  <ul>";
+    var strLevelsUrl = "https://api.unfoldingword.org/obs/jpg/1/checkinglevels/uW-Level1-16px.png";
+    var strLowResUrl = "https://unfoldingword.org/en/360px/01/";
+    var strHighResUrl ="https://unfoldingword.org/en/2160px/01/";
+    var strLowResIconUrl ="/images/low_res.png";
+    var strPDFUrl = "https://api.unfoldingword.org/obs/txt/1/en/obs-en-v3_1_1.pdf";
+
+    for(i = 0; i < arr.length; i++) {
+        htmlOut  += "<li class='languages' style=\"list-style-image: url('"
+        // buiild the URL for the levels icon
+        switch(arr[i].status.checking_level) {
+            case "1":
+                htmlOut += strLevelsUrl;
+                break;
+            case "2":
+                htmlOut +=  strLevelsUrl.replace("Level1", "Level2");
+                break;
+            case "3":
+                htmlOut +=  strLevelsUrl.replace("Level1", "Level3");
+                break;
+            default:
+                htmlOut += strLevelsUrl;
+        }
+        /* first build the URL for the low res version, then the high res, finally the pdf */
+        htmlOut += "');\"> " + arr[i].string + " (" + arr[i].language + ") " + "<a class='img_swap' href=\"" + strLowResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='images/low_res.png' /><img class='languages' src='images/low_res_h.png' /></a> " +
+        "<a class='img_swap' href=\"" + strHighResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='images/high_res.png'><img class='languages' src='images/high_res_h.png'></a> " +
+        "<a class='img_swap' href=\"" + strPDFUrl.replace(/en/g, arr[i].language) + "\"><img class='languages' src='images/download.png'><img class='languages' src='images/download_h.png'></a>";
+    }
+    htmlOut += "</ul></div>" +
+    "<p>Learn more about <a title='Quality Assurance' href='https://unfoldingword.org/quality/'>Checking Levels</a>.</p>" +
+    "<p>Not finding your language? <a href='https://door43.org/en/get-started'>Translate it</a>.</p>";
+
+    document.getElementById("id01").innerHTML = htmlOut;
+    //document.write(arr.length);
+}
+
+</script>
+
+</body>
+</html>
