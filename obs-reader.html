@@ -39,33 +39,25 @@ function myFunction(response) {
 
     var i;
     var htmlOut = "<div><p>&nbsp;</p><p>Available translations (many more coming very soon!):</p>  <ul>";
-    var strLevelsUrl = "https://api.unfoldingword.org/obs/jpg/1/checkinglevels/uW-Level1-16px.png";
+    //var strLevelsUrl = "https://api.unfoldingword.org/obs/jpg/1/checkinglevels/uW-Level1-16px.png";
+    var strLevelsUrl = "https://api.unfoldingword.org/obs/jpg/1/checkinglevels/uW-Level";
     var strLowResUrl = "https://unfoldingword.org/en/360px/01/";
     var strHighResUrl ="https://unfoldingword.org/en/2160px/01/";
     var strLowResIconUrl ="/images/low_res.png";
-    var strPDFUrl = "https://api.unfoldingword.org/obs/txt/1/en/obs-en-v3_1_1.pdf";
+    //var strPDFUrl = "https://api.unfoldingword.org/obs/txt/1/en/obs-en-v3_1_1.pdf";
+    var strPDFUrl = "https://api.unfoldingword.org/obs/txt/1/en/obs-";
 
     for(i = 0; i < arr.length; i++) {
-        htmlOut  += "<li class='languages' style=\"list-style-image: url('"
-        // buiild the URL for the levels icon
-        switch(arr[i].status.checking_level) {
-            case "1":
-                htmlOut += strLevelsUrl;
-                break;
-            case "2":
-                htmlOut +=  strLevelsUrl.replace("Level1", "Level2");
-                break;
-            case "3":
-                htmlOut +=  strLevelsUrl.replace("Level1", "Level3");
-                break;
-            default:
-                htmlOut += strLevelsUrl;
-        }
-        /* first build the URL for the low res version, then the high res, finally the pdf */
+        //first create the URL for the Levels Icon
+        htmlOut  += "<li class='languages' style=\"list-style-image: url('" +
+            strLevelsUrl + arr[i].status.checking_level + "-16px.png";
+
+        // next, build the URL for the low res version, then the high res, finally the pdf */
         htmlOut += "');\"> " + arr[i].string + " (" + arr[i].language + ") " + "<a class='img_swap' href=\"" + strLowResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='images/low_res.png' /><img class='languages' src='images/low_res_h.png' /></a> " +
         "<a class='img_swap' href=\"" + strHighResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='images/high_res.png'><img class='languages' src='images/high_res_h.png'></a> " +
-        "<a class='img_swap' href=\"" + strPDFUrl.replace(/en/g, arr[i].language) + "\"><img class='languages' src='images/download.png'><img class='languages' src='images/download_h.png'></a>";
+        "<a class='img_swap' href=\"" + strPDFUrl + arr[i].language + "-v" + arr[i].status.version.replace(/[ .]/g, "_") + ".pdf" + "\"><img class='languages' src='images/download.png'><img class='languages' src='images/download_h.png'></a>";
     }
+    // close out the list and the div
     htmlOut += "</ul></div>" +
     "<p>Learn more about <a title='Quality Assurance' href='https://unfoldingword.org/quality/'>Checking Levels</a>.</p>" +
     "<p>Not finding your language? <a href='https://door43.org/en/get-started'>Translate it</a>.</p>";
