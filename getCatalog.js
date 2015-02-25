@@ -23,9 +23,9 @@ function getCatalog(response) {
             strLevelsUrl + arr[i].status.checking_level + "-16px.png";
 
         // next, build the URL for the low res version, then the high res, finally the pdf */
-        htmlOut += "');\"> " + arr[i].string + " (" + arr[i].language + ") " + "<a class='img_swap' href=\"" + strLowResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='/img/low_res.png' /><img class='languages' src='/img/low_res_h.png' /></a> " +
-        "<a class='img_swap' href=\"" + strHighResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='/img/high_res.png'><img class='languages' src='/img/high_res_h.png'></a> " +
-        "<a class='img_swap' href=\""  + strPDFUrl + arr[i].language + "/obs-" + arr[i].language + "-v" + arr[i].status.version.replace(/[ .]/g, "_") + ".pdf" + "\"><img class='languages' src='/img/download.png'><img class='languages' src='/img/download_h.png'></a>";
+        htmlOut += "');\"> " + arr[i].string + " (" + arr[i].language + ") " + "<a class='img_swap' href=\"" + strLowResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='/img/low_res_h.png' /></a> " +
+        "<a class='img_swap' href=\"" + strHighResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='/img/high_res_h.png'></a> " +
+        "<a class='img_swap' href=\""  + strPDFUrl + arr[i].language + "/obs-" + arr[i].language + "-v" + arr[i].status.version.replace(/[ .]/g, "_") + ".pdf" + "\"><img class='languages' src='/img/download_h.png'></a>";
     }
     // close out the list and the div
     htmlOut += "</ul></div>";
