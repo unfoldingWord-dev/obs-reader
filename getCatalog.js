@@ -1,4 +1,9 @@
+
 function getCatalog(response) {
+
+    // check for blank response
+    if (!response) return;
+
     var arr = JSON.parse(response);
 
     //sort by language property
@@ -6,30 +11,36 @@ function getCatalog(response) {
         return a.language.toLowerCase().localeCompare(b.language.toLowerCase());
     });
 
-    var i;
-    var htmlOut = "<div><ul>";
-    //var strLevelsUrl = "https://api.unfoldingword.org/obs/jpg/1/checkinglevels/uW-Level1-16px.png";
-    var strLevelsUrl = "https://api.unfoldingword.org/obs/jpg/1/checkinglevels/uW-Level";
-    var strLowResUrl = "https://unfoldingword.org/en/360px/01/";
-    var strHighResUrl ="https://unfoldingword.org/en/2160px/01/";
-    var strLowResIconUrl ="/img/low_res.png";
-    //var strPDFUrl = "https://api.unfoldingword.org/obs/txt/1/en/obs-en-v3_1_1.pdf";
-    //https://api.unfoldingword.org/obs/txt/1/es/obs-es-v3_2_1.pdf
-    var strPDFUrl = "https://api.unfoldingword.org/obs/txt/1/";
+    var items = [];
 
-    for(i = 0; i < arr.length; i++) {
-        //first create the URL for the Levels Icon
-        htmlOut  += "<li class='languages' style=\"list-style-image: url('" +
-            strLevelsUrl + arr[i].status.checking_level + "-16px.png";
-
-        // next, build the URL for the low res version, then the high res, finally the pdf */
-        htmlOut += "');\"> " + arr[i].string + " (" + arr[i].language + ") " + "<a class='img_swap' href=\"" + strLowResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='/img/low_res_h.png' /></a> " +
-        "<a class='img_swap' href=\"" + strHighResUrl.replace("/en/", "/" + arr[i].language + "/") + "\"><img class='languages' src='/img/high_res_h.png'></a> " +
-        "<a class='img_swap' href=\""  + strPDFUrl + arr[i].language + "/obs-" + arr[i].language + "-v" + arr[i].status.version.replace(/[ .]/g, "_") + ".pdf" + "\"><img class='languages' src='/img/download_h.png'></a>";
+    for (var i = 0; i < arr.length; i++) {
+        var item = arr[i];
+        items.push(buildListItem(item.string, item.language, item.status));
     }
-    // close out the list and the div
-    htmlOut += "</ul></div>";
 
-    document.getElementById("id01").innerHTML = htmlOut;
-    //document.write(arr.length);
+    document.getElementById("id01").innerHTML = '<div><ul>\n' + items.join('\n') + '</ul></div>\n';
+}
+
+function buildListItem(langName, langCode, status) {
+
+    var style = "list-style-image: url('https://api.unfoldingword.org/obs/jpg/1/checkinglevels/uW-Level" + status.checking_level + "-16px.png');";
+    var lowRes = 'https://unfoldingword.org/' + langCode + '/360px/01/';
+    var highRes = 'https://unfoldingword.org/' + langCode + '/2160px/01/';
+    var pdfUrl = 'https://api.unfoldingword.org/obs/txt/1/' + langCode + '/obs-' + langCode + '-v' + status.version.replace(/[ .]/g, '_') + '.pdf';
+
+    // li text
+    // 2015-03-09, PH: span added to fix an issue of text not displaying in IE if the name of the language uses a
+    //                 different writing system than the rest of the line, which uses the Latin writing system
+    var html = '<span>' + langName + '</span> (' + langCode + ')';
+
+    // low res link
+    html += '<a class="img_swap" href="' + lowRes + '"><img class="languages" src="/img/low_res_h.png"></a>';
+
+    // high res link
+    html += '<a class="img_swap" href="' + highRes + '"><img class="languages" src="/img/high_res_h.png"></a>';
+
+    // pdf link
+    html += '<a class="img_swap" href="' + pdfUrl + '"><img class="languages" src="/img/download_h.png"></a>';
+
+    return '<li class="languages" style="' + style + '">' + html + '</li>';
 }
