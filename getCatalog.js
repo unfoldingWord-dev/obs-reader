@@ -29,7 +29,7 @@ function buildListItem(langName, langCode, status) {
     var pdfUrl = 'https://api.unfoldingword.org/obs/txt/1/' + langCode + '/obs-' + langCode + '-v' + status.version.replace(/[ .]/g, '_') + '.pdf';
 
     // li text
-    var html = langName + ' (' + langCode + ')';
+    var html = '<span>' + langName + '</span> (' + langCode + ')';
 
     // low res link
     html += '<a class="img_swap" href="' + lowRes + '"><img class="languages" src="/img/low_res_h.png"></a>';
