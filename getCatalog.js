@@ -29,6 +29,8 @@ function buildListItem(langName, langCode, status) {
     var pdfUrl = 'https://api.unfoldingword.org/obs/txt/1/' + langCode + '/obs-' + langCode + '-v' + status.version.replace(/[ .]/g, '_') + '.pdf';
 
     // li text
+    // 2015-03-09, PH: span added to fix an issue of text not displaying in IE if the name of the language uses a
+    //                 different writing system than the rest of the line, which uses the Latin writing system
     var html = '<span>' + langName + '</span> (' + langCode + ')';
 
     // low res link
@@ -42,12 +44,3 @@ function buildListItem(langName, langCode, status) {
 
     return '<li class="languages" style="' + style + '">' + html + '</li>';
 }
-
-//TODO: update the code that calls to check for return codes
-/*
- request.onreadystatechange = function () {
-     if (request.readyState == 4 && request.status == 200) {
-         callback(request.responseText);
-     }
- };
- */
