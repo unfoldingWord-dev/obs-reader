@@ -34,13 +34,13 @@ function buildListItem(langName, langCode, status) {
     var html = '<span>' + langName + '</span> (' + langCode + ')';
 
     // low res link
-    html += '<a class="img_swap" href="' + lowRes + '"><img class="languages" src="/img/low_res_h.png"></a>';
+    html += ' <a class="img_swap" href="' + lowRes + '"><img class="languages" src="/img/low_res_h.png"></a>';
 
     // high res link
-    html += '<a class="img_swap" href="' + highRes + '"><img class="languages" src="/img/high_res_h.png"></a>';
+    html += ' <a class="img_swap" href="' + highRes + '"><img class="languages" src="/img/high_res_h.png"></a>';
 
     // pdf link
-    html += '<a class="img_swap" href="' + pdfUrl + '"><img class="languages" src="/img/download_h.png"></a>';
+    html += ' <a class="img_swap" href="' + pdfUrl + '"><img class="languages" src="/img/download_h.png"></a>';
 
     return '<li class="languages" style="' + style + '">' + html + '</li>';
 }
