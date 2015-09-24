@@ -1,3 +1,7 @@
+# Deprecated
+
+The relevant bits of this code have been moved into the unfoldingWord website code (https://github.com/unfoldingWord/unfoldingWord.github.io).  Whatever is here may or may not work, it is no longer maintained ;)
+
 # obs-reader
 Reads API endpoint and displays published versions of OBS
 
